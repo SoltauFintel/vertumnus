@@ -12,15 +12,12 @@ Eclipse Kepler is used for programming. So the repository contains the Eclipse f
 Vertumnus-Maker depends on Vertumnus.
 
 Vertumnus needs webspace with FTP access. For unit testing you need the file /ftp.xml.
-Content: <ftp p="..." u="..." s="..." path="..."/>
+Content: `<ftp p="..." u="..." s="..." path="..."/>`
 
-p = FTP password
-
-u = FTP user name
-
-s = FTP server name
-
-path = FTP path, should begin with /
+* p = FTP password
+* u = FTP user name
+* s = FTP server name
+* path = FTP server path, usually begins with /
 
 ## Roadmap
 

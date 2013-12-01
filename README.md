@@ -9,10 +9,9 @@ to the newest version (e.g. 1.1.0 to 2.0.1) or to keep to the major version (e.g
 ## Development
 
 Eclipse Kepler is used for programming. So the repository contains the Eclipse files.
-I use Windows 7 as operating system.
 Vertumnus-Maker depends on Vertumnus.
 
-Vertumnus needs webspace with FTP access. For unit testing you need the file C:\ftp.xml.
+Vertumnus needs webspace with FTP access. For unit testing you need the file /ftp.xml.
 Content: <ftp p="..." u="..." s="..." path="..."/>
 
 p = FTP password

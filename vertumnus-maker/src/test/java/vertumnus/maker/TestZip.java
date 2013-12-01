@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import vertumnus.base.Zip;
 
+/**
+ * Tests the Zip class
+ */
 public class TestZip {
 
 	@Test
@@ -15,7 +18,7 @@ public class TestZip {
 		toDir.mkdirs();
 		Zip.unzip("preparation/testmodule.zip", toDir.toString());
 		Assert.assertEquals(9033, new File(toDir, "datei-1.1.0.odt").length());
-		Assert.assertTrue("ein leeres Verzeichnis fehlt", new File(toDir,
+		Assert.assertTrue("An empty folder is missing!", new File(toDir,
 				"empty").isDirectory());
 	}
 }

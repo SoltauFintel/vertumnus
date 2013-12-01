@@ -11,7 +11,7 @@ public class Preparation {
 		leer.saveFile(dnVerz);
 		Uploader u = new Uploader();
 		u.setVerzeichnis(dnVerz);
-		u.initFTP(FTPDaten.create(), FTPDaten.path);
+		u.initFTP(FTPData.create(), FTPData.path);
 		u.setModul("testmodule");
 
 		u.setVersion("1.1.0");

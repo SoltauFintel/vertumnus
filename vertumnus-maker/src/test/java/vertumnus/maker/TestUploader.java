@@ -25,7 +25,7 @@ public class TestUploader {
 		String dn = "preparation/testmodule.zip";
 		File file = new File(dn);
 		u.setFile(dn);
-		u.initFTP(FTPDaten.create(), FTPDaten.path);
+		u.initFTP(FTPData.create(), FTPData.path);
 		try {
 			u.upload();
 		} finally {
@@ -42,10 +42,10 @@ public class TestUploader {
 		Assert.assertEquals("URL <>", soll, dok.getChildren().get(0).getValue("url"));
 		Assert.assertEquals("size <>", "" + file.length(), dok.getChildren().get(0).getValue("size"));
 		// Prüfung 2: Dateien müssen hochgeladen sein
-		FTPUpload ftp = FTPDaten.create();
+		FTPUpload ftp = FTPData.create();
 		FTPFile[] files;
 		try {
-			ftp.cd(FTPDaten.path);
+			ftp.cd(FTPData.path);
 			files = ftp.listFiles();
 		} finally {
 			ftp.disconnect();

@@ -1,0 +1,8 @@
+dependencies {
+	compile 'dom4j:dom4j:1.6.1'
+	compile 'jaxen:jaxen:1.1.4'
+	compile 'com.lexicalscope.jewelcli:jewelcli:0.7.6'
+	compile 'commons-net:commons-net:3.3'
+	testCompile 'junit:junit:4.11'
+}
+

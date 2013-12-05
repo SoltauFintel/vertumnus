@@ -2,3 +2,5 @@
 /TODO.txt
 /temp/*
 !/temp/dummyfile
+/build
+/.gradle

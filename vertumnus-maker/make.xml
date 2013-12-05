@@ -1,0 +1,16 @@
+<project name="vertumnus-maker" default="build" basedir=".">
+	<target name="build">
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+			<arg value="gradlew.bat"/>
+			<arg value="jar"/>
+		</exec>
+	</target>
+	<target name="eclipse">
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+			<arg value="gradlew.bat"/>
+			<arg value="eclipse"/>
+		</exec>
+	</target>
+</project>

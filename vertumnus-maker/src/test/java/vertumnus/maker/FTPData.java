@@ -20,17 +20,17 @@ public class FTPData {
 		File ftpxml = new File("/ftp.xml"); // Maybe you need to modify this path.
 		if (!ftpxml.exists()) {
 			throw new RuntimeException("File '" + ftpxml.getAbsolutePath()
-					+ "' not found! Please create this file. Shoud look something like this:"
-					+ " <ftp p=\"...\" u=\"...\" s=\"...\" path=\"...\"/> See README.md for more details.");
+					+ "' not found! Please create this file. Should look something like this:"
+					+ " <ftp password=\"...\" username=\"...\" server=\"...\" path=\"/...\"/>");
 		}
 		XMLDocument doc = new XMLDocument(ftpxml);
 		XMLElement e = doc.getElement();
+		path = e.getValue("path");       // e.g. "/webpages/myserver.com/myapp/liveupdate"
 		FTPUpload u = new FTPUpload();
-		path = e.getValue("path");
 		u.connect(
-				e.getValue("s"), // FTP server name
-				e.getValue("u"), // FTP user name
-				e.getValue("p")); // FTP user password
+				e.getValue("server"),    // e.g. "myserver.com"
+				e.getValue("username"),  // e.g. "joe"
+				e.getValue("password")); // e.g. "secret"
 		return u;
 	}
 }

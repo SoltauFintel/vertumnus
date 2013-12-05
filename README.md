@@ -19,9 +19,11 @@ Content: `<ftp p="..." u="..." s="..." path="..."/>`
 * s = FTP server name
 * path = FTP server path, usually begins with /
 
+After clone this repository into Eclipse you must execute the target "eclipse" of vertumnus-maker/make.xml to load the needed JARs from internet.
+
 ## Roadmap
 
-* Build with Gradle
+* easier ftp.xml format
 * Translation of messages to English language (NLS)
 * Translation of code and file names to English language; comments
 * new feature: Bugfix line

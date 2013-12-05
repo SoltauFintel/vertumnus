@@ -12,7 +12,7 @@ Eclipse Kepler is used for programming. So the repository contains the Eclipse f
 Vertumnus-Maker depends on Vertumnus.
 
 Vertumnus needs webspace with FTP access. For unit testing you need the file /ftp.xml.
-Content: `<ftp password="..." username="..." server="..." path="/..."/>`
+Content: `<ftp server="..." username="..." password="..." path="/..."/>`
 
 After clone this repository into Eclipse you must execute the target "eclipse" of vertumnus-maker/make.xml to load the needed JARs from internet.
 

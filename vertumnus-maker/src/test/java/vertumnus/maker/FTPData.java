@@ -21,7 +21,7 @@ public class FTPData {
 		if (!ftpxml.exists()) {
 			throw new RuntimeException("File '" + ftpxml.getAbsolutePath()
 					+ "' not found! Please create this file. Should look something like this:"
-					+ " <ftp password=\"...\" username=\"...\" server=\"...\" path=\"/...\"/>");
+					+ " <ftp server=\"...\" username=\"...\" password=\"...\" path=\"/...\"/>");
 		}
 		XMLDocument doc = new XMLDocument(ftpxml);
 		XMLElement e = doc.getElement();

@@ -18,7 +18,5 @@ After clone this repository into Eclipse you must execute the target "eclipse" o
 
 ## Roadmap
 
-* Translation of messages to English language (NLS)
-* Translation of code and file names to English language; comments
 * new feature: Bugfix line
 * Documentation

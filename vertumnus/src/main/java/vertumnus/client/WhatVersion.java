@@ -16,7 +16,7 @@ public class WhatVersion {
 	 * Sets directory file.
 	 * @param fileName file name incl. path
 	 */
-	public void setVerzeichnis(String fileName) {
+	public void setDirectory(String fileName) {
 		doc = new XMLDocument(new File(fileName));
 	}
 

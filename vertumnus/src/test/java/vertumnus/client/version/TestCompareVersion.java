@@ -6,48 +6,46 @@ import org.junit.Test;
 import vertumnus.client.WhatVersion;
 
 /**
- * Test der Methoden compare und makeVersion der Klasse WelcheVersion
+ * Test of the methods compare and makeVersion of the class WhatVersion
  */
 public class TestCompareVersion {
 
 	@Test
-	public void gleich_2() {
+	public void equal_2() {
 		Assert.assertEquals(0, WhatVersion.compare("1.0", "1.0"));
 	}
 
 	@Test
-	public void gleich_3() {
+	public void equal_3() {
 		Assert.assertEquals(0, WhatVersion.compare("18.0.0", "18.0.0"));
 	}
 
 	@Test
-	public void kleiner_2() {
+	public void smaller_2() {
 		Assert.assertTrue(WhatVersion.compare("18.4", "18.5") < 0);
 	}
 
 	@Test
-	public void kleiner_3a() {
+	public void smaller_3a() {
 		Assert.assertTrue(WhatVersion.compare("18.4.17", "18.5.0") < 0);
 	}
 
 	@Test
-	public void kleiner_9_10a() {
+	public void smaller_9_10a() {
 		Assert.assertTrue(WhatVersion.compare("18.9.0", "18.10.0") < 0);
 	}
 
 	@Test
-	public void kleiner_9_10b() {
+	public void smaller_9_10b() {
 		Assert.assertTrue(WhatVersion.compare("9.9", "10.0") < 0);
-		Assert.assertTrue("Test 2", WhatVersion.compare("10.0", "9.9") > 0); // andersrum
+		Assert.assertTrue("Test 2", WhatVersion.compare("10.0", "9.9") > 0); // vice versa
 	}
 
 	@Test
-	public void kleiner_3b() {
+	public void smaller_3b() {
 		Assert.assertTrue(WhatVersion.compare("18.4.17", "19.0.0") < 0);
-		Assert.assertTrue("Test 2", WhatVersion.compare("19.0.0", "18.4.17") > 0); // andersrum
+		Assert.assertTrue("Test 2", WhatVersion.compare("19.0.0", "18.4.17") > 0); // vice versa
 	}
-
-	
 	
 	@Test
 	public void makeVersionTest() {
@@ -76,12 +74,12 @@ public class TestCompareVersion {
 	}
 
 	@Test
-	public void ungueltigeZeichen() {
+	public void invalidCharacters() {
 		try {
 			WhatVersion.compare("18.0.0beta", "18.0.0");
-			Assert.fail("RuntimeException erwartet");
+			Assert.fail("RuntimeException expected");
 		} catch (RuntimeException e) {
-			Assert.assertTrue(e.getMessage().toLowerCase().contains("ungültig"));
+			Assert.assertTrue(e.getMessage().toLowerCase().contains("invalid"));
 		}
 	}
 }

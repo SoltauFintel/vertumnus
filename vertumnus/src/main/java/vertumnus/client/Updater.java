@@ -58,7 +58,7 @@ public class Updater implements DownloadInfo {
 				throw new RuntimeException("File doesn't exist or is not downloadable: " + urlDirectory);
 			}
 			wv = new WhatVersion();
-			wv.setVerzeichnis(directory.getAbsolutePath());
+			wv.setDirectory(directory.getAbsolutePath());
 		}
 		wv.setModule(modul);
 		String version;

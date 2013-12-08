@@ -7,7 +7,10 @@ import vertumnus.base.XMLDocument;
 import vertumnus.base.XMLElement;
 import vertumnus.client.WhatVersion;
 
-public class TestWelcheVersion {
+/**
+ * Test of class WhatVersion
+ */
+public class TestWhatVersion {
 
 	@Test
 	public void minor1() {
@@ -51,11 +54,11 @@ public class TestWelcheVersion {
 	
 	@Test
 	public void twoModules_minor() {
-		WhatVersion v = getWelcheVersionR();
+		WhatVersion v = getWhatVersionR();
 		String akt = "19.0.0";
-		v.setModule("Testmodul");
+		v.setModule("Testmodule");
 		String m1 = v.getNextMinorVersion(akt);
-		v.setModule("Libmodul");
+		v.setModule("Libmodule");
 		String m2 = v.getNextMinorVersion(akt);
 		Assert.assertEquals("19.0.7", m1);
 		Assert.assertNull("Test 2 <>", m2);
@@ -63,11 +66,11 @@ public class TestWelcheVersion {
 	
 	@Test
 	public void twoModules_major() {
-		WhatVersion v = getWelcheVersionR();
+		WhatVersion v = getWhatVersionR();
 		String akt = "19.0.0";
-		v.setModule("Testmodul");
+		v.setModule("Testmodule");
 		String m1 = v.getNextMajorVersion(akt);
-		v.setModule("Libmodul");
+		v.setModule("Libmodule");
 		String m2 = v.getNextMajorVersion(akt);
 		Assert.assertEquals("20.0.1", m1);
 		Assert.assertEquals("Test 2 <>", "20.0.0", m2);
@@ -77,70 +80,70 @@ public class TestWelcheVersion {
 		WhatVersion v = getWelcheVersion();
 		String ist = v.getNextMajorVersion(version);
 		Assert.assertEquals(
-				"Version falsch (Major-Linie)\nVersion: " + version, soll, ist);
+				"Version is wrong (Major line)\nVersion: " + version, soll, ist);
 	}
 
 	private void minor(String version, String soll) {
 		WhatVersion v = getWelcheVersion();
 		String ist = v.getNextMinorVersion(version);
 		Assert.assertEquals(
-				"Version falsch (Minor-Linie)\nVersion: " + version, soll, ist);
+				"Version is wrong (Minor line)\nVersion: " + version, soll, ist);
 	}
 
 	private WhatVersion getWelcheVersion() {
-		WhatVersion v = getWelcheVersionR();
-		v.setModule("Testmodul");
+		WhatVersion v = getWhatVersionR();
+		v.setModule("Testmodule");
 		return v;
 	}
 	
-	private WhatVersion getWelcheVersionR() {
+	private WhatVersion getWhatVersionR() {
 		XMLDocument dok = new XMLDocument("<directory/>");
 		String dn = "temp/directory.xml";
 		XMLElement e;
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "18.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Libmodul");
+		e.setValue("modul", "Libmodule");
 		e.setValue("version", "18.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "17.6.4");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "18.2.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Libmodul");
+		e.setValue("modul", "Libmodule");
 		e.setValue("version", "18.2.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "19.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "19.0.7");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Libmodul");
+		e.setValue("modul", "Libmodule");
 		e.setValue("version", "20.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "20.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodul");
+		e.setValue("modul", "Testmodule");
 		e.setValue("version", "20.0.1");
 
 		dok.saveFile(dn);
 		WhatVersion v = new WhatVersion();
-		v.setVerzeichnis(dn);
+		v.setDirectory(dn);
 		return v;
 	}
 }

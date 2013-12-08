@@ -9,36 +9,36 @@ import vertumnus.base.XMLElement;
 /**
  * The most important Vertumnus-Maker class.
  * 
- * <p>Paket hochladen und Verzeichnis fortschreiben
+ * <p>Upload packet and update directory
  */
 public class Uploader {
 	private FTPUpload ftp;
-	private File fVerz;
-	private String modul;
+	private File fDirectory;
+	private String module;
 	private String version;
 	private File file;
 	private String path = "/";
 	
 	/**
-	 * @param dn Verzeichnisdatei Dateiname, inkl. Pfad 
+	 * @param fileName directory file name incl. path
 	 */
-	public void setVerzeichnis(String dn) {
-		fVerz = new File(dn);
-		if (!fVerz.exists()) {
-			throw new RuntimeException("Verzeichnisdatei nicht vorhanden: " + dn);
+	public void setDirectory(String fileName) {
+		fDirectory = new File(fileName);
+		if (!fDirectory.exists()) {
+			throw new RuntimeException("Directory file doesn't exist: " + fileName);
 		}
 	}
 	
-	public void setModul(String modul) {
-		if (modul == null || modul.trim().isEmpty()) {
-			throw new IllegalArgumentException("Argument modul darf nicht leer sein");
+	public void setModule(String module) {
+		if (module == null || module.trim().isEmpty()) {
+			throw new IllegalArgumentException("Argument module must not be empty!");
 		}
-		this.modul = modul;
+		this.module = module;
 	}
 	
 	/**
-	 * @param version String bestehend aus 3 Zahlen, die mit "." getrennt sind.
-	 * <br>erste Stelle: Major Version, zweite Stelle: Minor Version, dritte Stelle: Bugfix Version.
+	 * @param version String contains of 3 numbers which are separeted with a "."
+	 * <br>1st part: major version, 2nd part: minor version, 3rd part: bugfix version.
 	 */
 	public void setVersion(String version) {
 		this.version = version;
@@ -47,7 +47,7 @@ public class Uploader {
 	public void setFile(String file) {
 		this.file = new File(file);
 		if (!this.file.exists()) {
-			throw new RuntimeException("Datei nicht vorhanden: " + file);
+			throw new RuntimeException("File not found: " + file);
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class Uploader {
 	 */
 	public void initFTP(FTPUpload u, String path) {
 		if (!u.isConntected()) {
-			throw new IllegalArgumentException("FTPUpload muss connected sein!");
+			throw new IllegalArgumentException("FTPUpload must be connected!");
 		}
 		ftp = u;
 		this.path = path;
@@ -69,21 +69,21 @@ public class Uploader {
 	}
 	
 	public void upload() {
-		if (ftp == null || modul == null || version == null || file == null || fVerz == null) {
-			throw new IllegalArgumentException("Es wurden nicht alle Parameter gesetzt!");
+		if (ftp == null || module == null || version == null || file == null || fDirectory == null) {
+			throw new IllegalArgumentException("Not all parameters were set!");
 		}
-		fortschreiben();
+		updateDirectory();
 		doUpload();
 	}
 
-	private void fortschreiben() {
-		XMLDocument dok = new XMLDocument(fVerz);
+	private void updateDirectory() {
+		XMLDocument dok = new XMLDocument(fDirectory);
 		XMLElement e = dok.getElement().add("e");
-		e.setValue("modul", modul);
+		e.setValue("modul", module);
 		e.setValue("version", version);
 		e.setValue("url", getNewFilename());
 		e.setValue("size", "" + file.length());
-		dok.saveFile(fVerz.getAbsolutePath());
+		dok.saveFile(fDirectory.getAbsolutePath());
 	}
 
 	private void doUpload() {
@@ -91,7 +91,7 @@ public class Uploader {
 		System.out.println("upload: " + file.getAbsolutePath() + " => " + getNewFilename());
 		ftp.upload(file.getAbsolutePath(), getNewFilename(), true);
 		System.out.println("  ... ok");
-		ftp.upload(fVerz.getAbsolutePath());
+		ftp.upload(fDirectory.getAbsolutePath());
 	}
 	
 	private String getNewFilename() {

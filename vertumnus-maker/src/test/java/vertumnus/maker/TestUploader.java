@@ -11,16 +11,16 @@ import vertumnus.base.XMLDocument;
 
 public class TestUploader {
 
-	// TODO Prüfuen, ob der Testcase Sinn macht.
-	// TODO Methode zu lang.
+	// TODO Check whether the test case makes sense.
+	// TODO Method too long
 	@Test
 	public void uploader() {
 		Uploader u = new Uploader();
 		XMLDocument verz = new XMLDocument("<directory/>");
 		String dnVerz = "temp/directory.xml";
 		verz.saveFile(dnVerz);
-		u.setVerzeichnis(dnVerz);
-		u.setModul("testmodule");
+		u.setDirectory(dnVerz);
+		u.setModule("testmodule");
 		u.setVersion("1.1.0");
 		String dn = "preparation/testmodule.zip";
 		File file = new File(dn);
@@ -31,17 +31,17 @@ public class TestUploader {
 		} finally {
 			u.disconnect();
 		}
-		// Prüfung 1: Verzeichnisdatei muss fortgeschrieben sein
+		// 1st check: directory file must be updated
 		File fVerz = new File(dnVerz);
 		XMLDocument dok = new XMLDocument(fVerz);
-		Assert.assertEquals("Element fehlt im Verzeichnis\n", 1, dok.getChildren().size());
-		Assert.assertEquals("Modulname <>", "testmodule", dok.getChildren().get(0).getValue("modul"));
+		Assert.assertEquals("Element is missing in directory\n", 1, dok.getChildren().size());
+		Assert.assertEquals("Module name <>", "testmodule", dok.getChildren().get(0).getValue("modul"));
 		Assert.assertEquals("Version <>", "1.1.0", dok.getChildren().get(0).getValue("version"));
 		Assert.assertEquals("File <>", "1.1.0", dok.getChildren().get(0).getValue("version"));
 		String soll = "testmodule-1.1.0.zip";
 		Assert.assertEquals("URL <>", soll, dok.getChildren().get(0).getValue("url"));
 		Assert.assertEquals("size <>", "" + file.length(), dok.getChildren().get(0).getValue("size"));
-		// Prüfung 2: Dateien müssen hochgeladen sein
+		// 2nd check: files must be uploaded
 		FTPUpload ftp = FTPData.create();
 		FTPFile[] files;
 		try {
@@ -60,7 +60,7 @@ public class TestUploader {
 				gefVerz = true;
 			}
 		}
-		Assert.assertTrue("Paket-Datei auf FTP Server nicht gefunden!", gef);
-		Assert.assertTrue("Verzeichnisdatei auf FTP Server nicht gefunden!", gefVerz);
+		Assert.assertTrue("Packet file not found on FTP server!", gef);
+		Assert.assertTrue("Directory file not found on FTP server!", gefVerz);
 	}
 }

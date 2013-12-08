@@ -10,9 +10,9 @@ public class Preparation {
 		XMLDocument leer = new XMLDocument("<directory/>");
 		leer.saveFile(dnVerz);
 		Uploader u = new Uploader();
-		u.setVerzeichnis(dnVerz);
+		u.setDirectory(dnVerz);
 		u.initFTP(FTPData.create(), FTPData.path);
-		u.setModul("testmodule");
+		u.setModule("testmodule");
 
 		u.setVersion("1.1.0");
 		u.setFile("preparation/testmodule-1.1.0.zip");

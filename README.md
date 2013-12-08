@@ -14,6 +14,8 @@ Vertumnus-Maker depends on Vertumnus.
 Vertumnus needs webspace with FTP access. For unit testing you need the file /ftp.xml.
 Content: `<ftp server="..." username="..." password="..." path="/..."/>`
 
+You also need to modify `vertumnus.client.TestUpdater.HOST`.
+
 After clone this repository into Eclipse you must execute the target "eclipse" of vertumnus-maker/make.xml to load the needed JARs from internet.
 
 ## Roadmap

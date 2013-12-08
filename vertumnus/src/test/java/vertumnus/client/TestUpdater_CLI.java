@@ -65,9 +65,12 @@ public class TestUpdater_CLI extends TestUpdater {
 	@Override
 	public void directoryDoesNotExist() {
 		Vertumnus.debug = true;
-		Vertumnus.main(new String[] { "-d",
-				"http://mwvb.de/vertumnus/directory-does-not-exist.xml", "-m",
-				MODULENAME, "-v", CURRENT_VERSION, "-l", getLine(), "-i", "temp",
+		Vertumnus.main(new String[] {
+				"-d", FALSE_DIRECTORY,
+				"-m", MODULENAME,
+				"-v", CURRENT_VERSION,
+				"-l", getLine(),
+				"-i", "temp",
 				"-s", "1" });
 	}
 }

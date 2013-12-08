@@ -12,7 +12,9 @@ public class TestUpdater {
 	public static final String MODULENAME = "testmodule";
 	public static final String CURRENT_VERSION = "1.0.1";
 	public static final String CURRENT_VERSION_NEW = "2.0.1";
-	public static final String DIRECTORY = "http://mwvb.de/vertumnus/directory.xml"; // You must change this URL.
+	private static final String HOST = "http://mwvb.de/vertumnus/"; // You must change this URL.
+	public static final String DIRECTORY = HOST + "directory.xml";
+	public static final String FALSE_DIRECTORY = HOST + "directory-does-not-exist.xml";
 
 	// call vertumnus.maker.TestPrepare.prepare() for first installation 
 

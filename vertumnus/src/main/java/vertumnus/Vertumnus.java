@@ -24,6 +24,7 @@ public class Vertumnus {
 			} else if ("minor".equalsIgnoreCase(cli.getLine())) {
 				u.setKeepMajorVersion(true);
 			}
+			u.setGUI(cli.isGui());
 			String filename = null, nv = null;
 			if (cli.getStage().contains("1")) {
 				nv = u.getNextVersion(cli.getModule(), cli.getVersion());

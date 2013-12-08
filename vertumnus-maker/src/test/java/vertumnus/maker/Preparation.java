@@ -13,6 +13,10 @@ public class Preparation {
 		u.setDirectory(filenameDirectory);
 		u.initFTP(FTPData.create(), FTPData.path);
 		u.setModule("testmodule");
+		
+		u.setVersion("0.6.3");
+		u.setFile("preparation/testmodule-0.6.3.zip"); // large file
+		u.upload();
 
 		u.setVersion("1.0.4");
 		u.setFile("preparation/testmodule-1.0.4.zip");

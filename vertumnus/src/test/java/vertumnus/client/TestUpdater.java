@@ -84,8 +84,8 @@ public class TestUpdater {
 			u.getNextVersion("Testmodule", "1.0.1");
 			Assert.fail("RuntimeException expected");
 		} catch (RuntimeException e) {
-			Assert.assertTrue("\"doesn't exist\" is not part of the error message\n" + e.getMessage(),
-					e.getMessage().contains("doesn't exist"));
+			Assert.assertTrue("\"could not be download\" is not part of the error message\n" + e.getMessage(),
+					e.getMessage().contains("could not be download"));
 		}
 	}
 	

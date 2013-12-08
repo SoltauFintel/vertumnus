@@ -29,4 +29,8 @@ public interface VertumnusCLI {
 	
 	@Option(shortName="i", defaultValue="")
 	String getInstallFolder();
+
+	/** show GUI (default: no GUI) */
+	@Option(shortName="g")
+	boolean isGui();
 }

@@ -3,9 +3,10 @@ package vertumnus.client;
 import java.io.File;
 import java.io.IOException;
 
+import vertumnus.Vertumnus;
 import vertumnus.base.FileService;
-import vertumnus.base.Zip;
 import vertumnus.base.FileService.DownloadInfo;
+import vertumnus.base.Zip;
 
 /**
  * The most important Vertumnus class.
@@ -21,6 +22,9 @@ public class Updater implements DownloadInfo {
 	private long size100 = -1;
 	private long lastTime = 0;
 	private File file;
+	private ProgressGUI gui = null;
+	private String info = "";
+	private String title = "Vertumnus " + Vertumnus.VERSION + " - Live Update";
 	
 	public void setDirectory(String url) {
 		urlDirectory = url;
@@ -46,6 +50,17 @@ public class Updater implements DownloadInfo {
 	}
 
 	/**
+	 * @param withGUI false (default) no GUI is showed, true to show progress in extra window
+	 */
+	public void setGUI(boolean withGUI) {
+		if (withGUI) {
+			gui = new ProgressGUI();
+		} else {
+			gui = null;
+		}
+	}
+	
+	/**
 	 * This method loads a file from the internet.
 	 * @param modul
 	 * @param currentVersion
@@ -59,15 +74,7 @@ public class Updater implements DownloadInfo {
 				throw new RuntimeException(e);
 			}
 			directory.deleteOnExit();
-			boolean ok;
-			try {
-				ok = FileService.download(urlDirectory, directory, this);
-			} catch (Exception e) {
-				ok = false;
-			}
-			if (!ok) {
-				throw new RuntimeException("File doesn't exist or is not downloadable: " + urlDirectory);
-			}
+			download(urlDirectory, directory);
 			wv = new WhatVersion();
 			wv.setDirectory(directory.getAbsolutePath());
 		}
@@ -81,7 +88,24 @@ public class Updater implements DownloadInfo {
 			version = wv.getNextMajorVersion(currentVersion);
 		}
 		packet = wv.getPacket(version);
+		info = "Download Version " + version;
 		return version;
+	}
+	
+	/**
+	 * Sets title of download window.
+	 * @param title The default is "Vertumnus {version} - Live Update".
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	/**
+	 * Sets label of download window. If you want to modify the info call this method before calling load().
+	 * @param text
+	 */
+	public void setInfo(String text) {
+		info = text;
 	}
 	
 	/**
@@ -101,31 +125,52 @@ public class Updater implements DownloadInfo {
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
 		}
-		boolean ok;
-		try {
-			ok = FileService.download(getHost() + url, file, this);
-		} catch (Exception e) {
-			ok = false;
-		}
-		if (!ok) {
-			throw new RuntimeException(
-					"File could not be downloaded: " + url);
-		}
+		download(getHost() + url, file);
 		return file.getAbsolutePath();
+	}
+	
+	private void download(String fromURL, File toFile) {
+		if (size100 > 0 && gui != null) {
+			gui.setTitle(title);
+			gui.setInfo(info);
+			gui.show();
+		}
+		try {
+			boolean ok;
+			try {
+				ok = FileService.download(fromURL, toFile, this);
+			} catch (Exception e) {
+				ok = false;
+			}
+			if (!ok) {
+				throw new RuntimeException("File could not be downloaded: " + fromURL);
+			}
+		} finally {
+			if (size100 > 0 && gui != null) {
+				gui.hide();
+				gui = null;
+			}
+		}
 	}
 
 	@Override
 	public boolean progress(long bytes) {
 		if (size100 > 0) {
 			final long z = System.currentTimeMillis();
-			long percent = bytes * 100L / size100;
+			int percent = (int) (bytes * 100L / size100);
 			if (percent == 100) {
 				size100 = -1;
 				if (lastTime > 0) {
-					System.out.println("    Download 100%");
-					System.out.println();
+					if (gui == null) {
+						System.out.println("    Download 100%");
+						System.out.println();
+					} else {
+						gui.setPercent(100);
+					}
 				}
 				lastTime = 0;
+			} else if (gui != null) {
+				gui.setPercent(percent);
 			} else if (percent > 4 && z - lastTime > 2400) {
 				lastTime = z;
 				System.out.println("    Download " + percent + "% ...");

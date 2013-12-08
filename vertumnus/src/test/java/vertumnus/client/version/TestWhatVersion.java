@@ -13,6 +13,21 @@ import vertumnus.client.WhatVersion;
 public class TestWhatVersion {
 
 	@Test
+	public void bugfix1() {
+		bugfix("18.0.0", "18.0.4");
+	}
+	
+	@Test
+	public void bugfix2() {
+		bugfix("20.0.0", "20.0.1");
+	}
+
+	@Test
+	public void bugfix_null() {
+		bugfix("18.2.0", null);
+	}
+
+	@Test
 	public void minor1() {
 		minor("18.0.0", "18.2.0");
 	}
@@ -90,6 +105,13 @@ public class TestWhatVersion {
 				"Version is wrong (Minor line)\nVersion: " + version, soll, ist);
 	}
 
+	private void bugfix(String version, String soll) {
+		WhatVersion v = getWelcheVersion();
+		String ist = v.getNextBugfixVersion(version);
+		Assert.assertEquals(
+				"Version is wrong (bugfix line)\nVersion: " + version, soll, ist);
+	}
+	
 	private WhatVersion getWelcheVersion() {
 		WhatVersion v = getWhatVersionR();
 		v.setModule("Testmodule");
@@ -104,6 +126,14 @@ public class TestWhatVersion {
 		e = dok.getElement().add("e");
 		e.setValue("module", "Testmodule");
 		e.setValue("version", "18.0.0");
+		
+		e = dok.getElement().add("e");
+		e.setValue("module", "Testmodule");
+		e.setValue("version", "18.0.3");
+		
+		e = dok.getElement().add("e");
+		e.setValue("module", "Testmodule");
+		e.setValue("version", "18.0.4");
 
 		e = dok.getElement().add("e");
 		e.setValue("module", "Libmodule");

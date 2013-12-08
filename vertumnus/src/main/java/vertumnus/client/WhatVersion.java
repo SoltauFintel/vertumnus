@@ -64,6 +64,27 @@ public class WhatVersion {
 	}
 	
 	/**
+	 * Returns the newest version within the same major+minor version line.
+	 * @param currentVersion
+	 * @return version (or null if there is no newer version)
+	 */
+	public String getNextBugfixVersion(String currentVersion) {
+		String ret = null;
+		String major = getMinorVersion(currentVersion);
+		for (XMLElement e : doc.getChildren()) {
+			if (e.getValue("module").equals(module)) {
+				String v = e.getValue("version");
+				if (major.equals(getMinorVersion(v))) {
+					if (compare(v, currentVersion) > 0 && (ret == null || compare(v, ret) > 0)) {
+						ret = v;
+					}
+				}
+			}
+		}
+		return ret;
+	}
+
+	/**
 	 * @param v1 Version number, e.g. "18.4.2"
 	 * @param v2 Version number, e.g. "18.0.0-beta"
 	 * @return < 0 if v1 is older than v2, = 0 if equal
@@ -99,6 +120,17 @@ public class WhatVersion {
 	public static String getMajorVersion(String v) {
 		int o = v.indexOf(".");
 		return o >= 0 ? v.substring(0, o) : v;
+	}
+
+	public static String getMinorVersion(String v) {
+		int o = v.indexOf(".");
+		if (o >= 0) {
+			int oo = v.indexOf(".", o + 1);
+			if (oo >= 0) {
+				return v.substring(0, oo);
+			}
+		}
+		return v;
 	}
 
 	public String getPacket(String version) {

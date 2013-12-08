@@ -32,7 +32,7 @@ public class WhatVersion {
 	public String getNextMajorVersion(String currentVersion) {
 		String ret = null;
 		for (XMLElement e : doc.getChildren()) {
-			if (e.getValue("modul").equals(module)) {
+			if (e.getValue("module").equals(module)) {
 				String v = e.getValue("version");
 				if (compare(v, currentVersion) > 0 && (ret == null || compare(v, ret) > 0)) {
 					ret = v;
@@ -51,7 +51,7 @@ public class WhatVersion {
 		String ret = null;
 		String major = getMajorVersion(currentVersion);
 		for (XMLElement e : doc.getChildren()) {
-			if (e.getValue("modul").equals(module)) {
+			if (e.getValue("module").equals(module)) {
 				String v = e.getValue("version");
 				if (major.equals(getMajorVersion(v))) {
 					if (compare(v, currentVersion) > 0 && (ret == null || compare(v, ret) > 0)) {
@@ -103,7 +103,7 @@ public class WhatVersion {
 
 	public String getPacket(String version) {
 		for (XMLElement e : doc.getChildren()) {
-			if (e.getValue("modul").equals(module)
+			if (e.getValue("module").equals(module)
 					&& e.getValue("version").equals(version)) {
 				return e.getValue("size") + " " + e.getValue("url");
 			}

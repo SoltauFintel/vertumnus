@@ -102,43 +102,43 @@ public class TestWhatVersion {
 		XMLElement e;
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "18.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Libmodule");
+		e.setValue("module", "Libmodule");
 		e.setValue("version", "18.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "17.6.4");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "18.2.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Libmodule");
+		e.setValue("module", "Libmodule");
 		e.setValue("version", "18.2.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "19.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "19.0.7");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Libmodule");
+		e.setValue("module", "Libmodule");
 		e.setValue("version", "20.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "20.0.0");
 
 		e = dok.getElement().add("e");
-		e.setValue("modul", "Testmodule");
+		e.setValue("module", "Testmodule");
 		e.setValue("version", "20.0.1");
 
 		dok.saveFile(dn);

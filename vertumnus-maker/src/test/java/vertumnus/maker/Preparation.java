@@ -4,13 +4,13 @@ import vertumnus.base.XMLDocument;
 
 public class Preparation {
 	
-	@org.junit.Test // only for first unique preparation
+//	@org.junit.Test // only for first unique preparation
 	public void preparation() {
-		String dnVerz = "preparation/directory.xml";
-		XMLDocument leer = new XMLDocument("<directory/>");
-		leer.saveFile(dnVerz);
+		String filenameDirectory = "preparation/directory.xml";
+		XMLDocument empty = new XMLDocument("<directory/>");
+		empty.saveFile(filenameDirectory);
 		Uploader u = new Uploader();
-		u.setDirectory(dnVerz);
+		u.setDirectory(filenameDirectory);
 		u.initFTP(FTPData.create(), FTPData.path);
 		u.setModule("testmodule");
 

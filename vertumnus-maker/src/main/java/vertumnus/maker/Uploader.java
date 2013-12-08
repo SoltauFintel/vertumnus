@@ -79,7 +79,7 @@ public class Uploader {
 	private void updateDirectory() {
 		XMLDocument dok = new XMLDocument(fDirectory);
 		XMLElement e = dok.getElement().add("e");
-		e.setValue("modul", module);
+		e.setValue("module", module);
 		e.setValue("version", version);
 		e.setValue("url", getNewFilename());
 		e.setValue("size", "" + file.length());

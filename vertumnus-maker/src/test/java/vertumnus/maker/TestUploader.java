@@ -35,7 +35,7 @@ public class TestUploader {
 		File fVerz = new File(dnVerz);
 		XMLDocument dok = new XMLDocument(fVerz);
 		Assert.assertEquals("Element is missing in directory\n", 1, dok.getChildren().size());
-		Assert.assertEquals("Module name <>", "testmodule", dok.getChildren().get(0).getValue("modul"));
+		Assert.assertEquals("Module name <>", "testmodule", dok.getChildren().get(0).getValue("module"));
 		Assert.assertEquals("Version <>", "1.1.0", dok.getChildren().get(0).getValue("version"));
 		Assert.assertEquals("File <>", "1.1.0", dok.getChildren().get(0).getValue("version"));
 		String soll = "testmodule-1.1.0.zip";

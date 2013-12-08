@@ -9,6 +9,7 @@ import org.junit.Test;
 import vertumnus.base.FTPUpload;
 import vertumnus.base.XMLDocument;
 
+// After this test the vertumnus/AllTests doesn't work anymore. Solution: run Preparation test again
 public class TestUploader {
 
 	// TODO Check whether the test case makes sense.

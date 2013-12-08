@@ -4,7 +4,7 @@ import vertumnus.base.XMLDocument;
 
 public class Preparation {
 	
-//	@org.junit.Test // only for first unique preparation
+	@org.junit.Test // only for first unique preparation
 	public void preparation() {
 		String filenameDirectory = "preparation/directory.xml";
 		XMLDocument empty = new XMLDocument("<directory/>");

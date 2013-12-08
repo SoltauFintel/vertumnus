@@ -12,36 +12,36 @@ public class TestUpdater_CLI extends TestUpdater {
 	@Test
 	public void stage1() {
 		updater("1", "", null);
-		Assert.assertEquals("Nächste Version falsch!\n", "NV="
+		Assert.assertEquals("Next version is wrong!\n", "NV="
 				+ getExpectedVersion() + ";", Vertumnus.getResult());
 	}
 
-	private void updater(String stages, String installFolder, String istVersion) {
+	private void updater(String stages, String installFolder, String currentVersion) {
 		Vertumnus.debug = true;
-		Vertumnus.main(new String[] { "-d", VERZEICHNIS, "-s", stages, "-m",
-				MODULNAME, "-v", istVersion == null ? IST_VERSION : istVersion, "-l", getLinie(), "-i",
+		Vertumnus.main(new String[] { "-d", DIRECTORY, "-s", stages, "-m",
+				MODULENAME, "-v", currentVersion == null ? CURRENT_VERSION : currentVersion, "-l", getLine(), "-i",
 				installFolder });
 	}
 
-	protected String getLinie() {
+	protected String getLine() {
 		return "major";
 	}
 
 	@Override
-	public void stage1_esGibtKeinUpdate() {
-		updater("1", "", IST_VERSION_NEU);
-		Assert.assertEquals("Nächste Version falsch!\n", "exit=-2;", Vertumnus.getResult());
+	public void stage1_noUpdate() {
+		updater("1", "", CURRENT_VERSION_NEW);
+		Assert.assertEquals("Next version is wrong!\n", "exit=-2;", Vertumnus.getResult());
 	}
 
 	@Test
 	public void stage2() {
 		updater("12", "", null);
-		Assert.assertFalse("Rückgabe ist leer!", Vertumnus.getResult().isEmpty());
+		Assert.assertFalse("Return value is empty!", Vertumnus.getResult().isEmpty());
 		int o = Vertumnus.getResult().indexOf("dn=");
-		Assert.assertTrue("'dn=' nicht gefunden:\r\n" + Vertumnus.getResult(), o > 0);
+		Assert.assertTrue("'dn=' not found:\r\n" + Vertumnus.getResult(), o > 0);
 		String dn = Vertumnus.getResult().substring(o + 3);
 		dn = dn.substring(0, dn.length() - 1);
-		Assert.assertTrue("Datei wurde nicht heruntergeladen o.ä.", new File(dn).exists());
+		Assert.assertTrue("File was not loaded, etc.", new File(dn).exists());
 	}
 
 	@Test
@@ -53,17 +53,17 @@ public class TestUpdater_CLI extends TestUpdater {
 	@Test
 	public void stage3_emptyMode() {
 		Vertumnus.debug = true;
-		Vertumnus.main(new String[] { "-d", VERZEICHNIS, "-m", MODULNAME,
-				"-v", IST_VERSION, "-l", getLinie(), "-i", "temp"});
+		Vertumnus.main(new String[] { "-d", DIRECTORY, "-m", MODULENAME,
+				"-v", CURRENT_VERSION, "-l", getLine(), "-i", "temp"});
 		Assert.assertTrue(Vertumnus.getResult().contains("installed;"));
 	}
 	
 	@Override
-	public void verzeichnisNichtVorhanden() {
+	public void directoryDoesNotExist() {
 		Vertumnus.debug = true;
 		Vertumnus.main(new String[] { "-d",
-				"http://mwvb.de/vertumnus/verzeichnis-nicht-da.xml", "-m",
-				MODULNAME, "-v", IST_VERSION, "-l", getLinie(), "-i", "temp",
+				"http://mwvb.de/vertumnus/directory-does-not-exist.xml", "-m",
+				MODULENAME, "-v", CURRENT_VERSION, "-l", getLine(), "-i", "temp",
 				"-s", "1" });
 	}
 }

@@ -8,7 +8,7 @@ public class TestMinorUpdater_CLI extends TestUpdater_CLI {
 	}
 	
 	@Override
-	protected String getLinie() {
+	protected String getLine() {
 		return "minor";
 	}
 }

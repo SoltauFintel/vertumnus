@@ -24,24 +24,16 @@ public class TestUpdater {
 	}
 
 	private void stage1portion(Updater u) {
-		String nextVersion = u.getNextVersion(MODULENAME, getCurrentVersion());
+		String nextVersion = u.getNextVersion(MODULENAME, CURRENT_VERSION);
 		Assert.assertEquals(getExpectedVersion(), nextVersion);
 		System.out.println("Update to version " + nextVersion);
 	}
 	
-	protected String getCurrentVersion() {
-		return CURRENT_VERSION;
-	}
-	
-	protected String getCurrentVersionNew() {
-		return CURRENT_VERSION_NEW;
-	}
-
 	// Detects whether an update is available: no
 	@Test
 	public void stage1_noUpdate() {
 		Updater u = getUpdater();
-		String nextVersion = u.getNextVersion("Testmodul", getCurrentVersionNew());
+		String nextVersion = u.getNextVersion("Testmodul", CURRENT_VERSION_NEW);
 		Assert.assertNull("Version must be null, but is: " + nextVersion, nextVersion);
 	}
 	

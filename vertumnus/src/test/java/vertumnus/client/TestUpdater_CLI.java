@@ -22,7 +22,7 @@ public class TestUpdater_CLI extends TestUpdater {
 				"-d", DIRECTORY,
 				"-s", stages,
 				"-m", MODULENAME,
-				"-v", currentVersion == null ? getCurrentVersion() : currentVersion,
+				"-v", currentVersion == null ? CURRENT_VERSION : currentVersion,
 				"-l", getLine(),
 				"-i", installFolder });
 	}
@@ -33,7 +33,7 @@ public class TestUpdater_CLI extends TestUpdater {
 
 	@Override
 	public void stage1_noUpdate() {
-		updater("1", "", getCurrentVersionNew());
+		updater("1", "", CURRENT_VERSION_NEW);
 		Assert.assertEquals("Next version is wrong!\n", "exit=-2;", Vertumnus.getResult());
 	}
 
@@ -58,7 +58,7 @@ public class TestUpdater_CLI extends TestUpdater {
 	public void stage3_emptyMode() {
 		Vertumnus.debug = true;
 		Vertumnus.main(new String[] { "-d", DIRECTORY, "-m", MODULENAME,
-				"-v", getCurrentVersion(), "-l", getLine(), "-i", "temp"});
+				"-v", CURRENT_VERSION, "-l", getLine(), "-i", "temp"});
 		Assert.assertTrue(Vertumnus.getResult().contains("installed;"));
 	}
 	
@@ -67,7 +67,7 @@ public class TestUpdater_CLI extends TestUpdater {
 		Vertumnus.debug = true;
 		Vertumnus.main(new String[] { "-d",
 				"http://mwvb.de/vertumnus/directory-does-not-exist.xml", "-m",
-				MODULENAME, "-v", getCurrentVersion(), "-l", getLine(), "-i", "temp",
+				MODULENAME, "-v", CURRENT_VERSION, "-l", getLine(), "-i", "temp",
 				"-s", "1" });
 	}
 }

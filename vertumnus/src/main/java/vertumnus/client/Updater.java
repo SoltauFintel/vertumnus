@@ -12,121 +12,121 @@ import vertumnus.base.FileService.DownloadInfo;
  */
 public class Updater implements DownloadInfo {
 	private boolean minorLinie = false;
-	private String urlVerz;
-	private File verz;
-	private WelcheVersion wv;
-	/** size + " " + url, oder null */
-	private String paket;
+	private String urlDirectory;
+	private File directory;
+	private WhatVersion wv;
+	/** size + " " + url, or null */
+	private String packet;
 	private long size100 = -1;
 	private long lastTime = 0;
-	private File datei;
+	private File file;
 	
-	public void setVerzeichnis(String url) {
-		urlVerz = url;
-		verz = null;
+	public void setDirectory(String url) {
+		urlDirectory = url;
+		directory = null;
 	}
 
 	/**
-	 * @param true wenn Updates nur in der Minor Linie erlaubt sind,
-	 * false (default) wenn die neueste Version geladen werden soll
+	 * @param true if updates are only permitted in the minor line,
+	 * false (default) if the newest version should be loaded
 	 */
 	public void setKeepMajorVersion(boolean e) {
 		minorLinie = e;
 	}
 
 	/**
-	 * Diese Methode lädt eine Datei aus dem Internet.
+	 * This method loads a file from the internet.
 	 * @param modul
-	 * @param istVersion
-	 * @return nächste Version oder null wenn es keine gibt
+	 * @param currentVersion
+	 * @return next version or null if there is none
 	 */
-	public String getNextVersion(String modul, String istVersion) {
-		if (verz == null) {
+	public String getNextVersion(String modul, String currentVersion) {
+		if (directory == null) {
 			try {
-				verz = File.createTempFile("vertumnus-verz-", ".tmp");
+				directory = File.createTempFile("vertumnus-verz-", ".tmp");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			verz.deleteOnExit();
+			directory.deleteOnExit();
 			boolean ok;
 			try {
-				ok = FileService.download(urlVerz, verz, this);
+				ok = FileService.download(urlDirectory, directory, this);
 			} catch (Exception e) {
 				ok = false;
 			}
 			if (!ok) {
-				throw new RuntimeException("Datei nicht vorhanden oder herunterladbar: " + urlVerz);
+				throw new RuntimeException("File doesn't exist or is not downloadable: " + urlDirectory);
 			}
-			wv = new WelcheVersion();
-			wv.setVerzeichnis(verz.getAbsolutePath());
+			wv = new WhatVersion();
+			wv.setVerzeichnis(directory.getAbsolutePath());
 		}
-		wv.setModul(modul);
+		wv.setModule(modul);
 		String version;
 		if (minorLinie) {
-			version = wv.getNextMinorVersion(istVersion);
+			version = wv.getNextMinorVersion(currentVersion);
 		} else {
-			version = wv.getNextMajorVersion(istVersion);
+			version = wv.getNextMajorVersion(currentVersion);
 		}
-		paket = wv.getPaket(version);
+		packet = wv.getPacket(version);
 		return version;
 	}
 	
 	/**
-	 * Paket laden. 
-	 * Diese Methode lädt eine Datei aus dem Internet.
-	 * @return Dateiname inkl. Pfad des heruntergeladenen Pakets
+	 * Load packet.
+	 * <br>This method loads a file from the internet.
+	 * @return file name incl. path of the downloaded packet
 	 */
 	public String load() {
-		int o = paket.indexOf(" ");
+		int o = packet.indexOf(" ");
 		if (o < 0) {
-			throw new RuntimeException("Format von paket falsch: '" + paket + "'!");
+			throw new RuntimeException("Format of packet wrong: '" + packet + "'!");
 		}
-		size100 = Long.parseLong(paket.substring(0, o));
-		String url = paket.substring(o + 1);
+		size100 = Long.parseLong(packet.substring(0, o));
+		String url = packet.substring(o + 1);
 		try {
-			datei = File.createTempFile("vertumnus-paket-", ".tmp");
+			file = File.createTempFile("vertumnus-paket-", ".tmp");
 		} catch (IOException e1) {
 			throw new RuntimeException(e1);
 		}
 		boolean ok;
 		try {
-			ok = FileService.download(getHost() + url, datei, this);
+			ok = FileService.download(getHost() + url, file, this);
 		} catch (Exception e) {
 			ok = false;
 		}
 		if (!ok) {
 			throw new RuntimeException(
-					"Datei konnte nicht herunter geladen werden: " + url);
+					"File could not be downloaded: " + url);
 		}
-		return datei.getAbsolutePath();
+		return file.getAbsolutePath();
 	}
 
 	@Override
 	public boolean progress(long bytes) {
 		if (size100 > 0) {
 			final long z = System.currentTimeMillis();
-			long prozent = bytes * 100L / size100;
-			if (prozent == 100) {
+			long percent = bytes * 100L / size100;
+			if (percent == 100) {
 				size100 = -1;
 				if (lastTime > 0) {
 					System.out.println("    Download 100%");
 					System.out.println();
 				}
 				lastTime = 0;
-			} else if (prozent > 4 && z - lastTime > 2400) {
+			} else if (percent > 4 && z - lastTime > 2400) {
 				lastTime = z;
-				System.out.println("    Download " + prozent + "% ...");
+				System.out.println("    Download " + percent + "% ...");
 			}
 		}
 		return false;
 	}
 	
 	private String getHost() {
-		int o = urlVerz.lastIndexOf("/");
+		int o = urlDirectory.lastIndexOf("/");
 		if (o >= 0) {
-			return urlVerz.substring(0, o + 1);
+			return urlDirectory.substring(0, o + 1);
 		}
-		String ret = urlVerz;
+		String ret = urlDirectory;
 		if (!ret.endsWith("/")) {
 			ret += "/";
 		}
@@ -134,10 +134,10 @@ public class Updater implements DownloadInfo {
 	}
 	
 	/**
-	 * Paket installieren
+	 * Install packet
 	 * @param toDir
 	 */
 	public void install(String toDir) {
-		Zip.unzip(datei.getAbsolutePath(), toDir);
+		Zip.unzip(file.getAbsolutePath(), toDir);
 	}
 }

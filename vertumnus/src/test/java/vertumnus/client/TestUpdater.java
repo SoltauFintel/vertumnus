@@ -66,14 +66,14 @@ public class TestUpdater {
 
 	protected Updater getUpdater() {
 		Updater u = new Updater();
-		u.setVerzeichnis(VERZEICHNIS);
+		u.setDirectory(VERZEICHNIS);
 		return u;
 	}
 	
 	@Test
 	public void verzeichnisNichtVorhanden() {
 		Updater u = new Updater();
-		u.setVerzeichnis("http://mwvb.de/vertumnus/verzeichnis-nicht-da.xml");
+		u.setDirectory("http://mwvb.de/vertumnus/verzeichnis-nicht-da.xml");
 		try {
 			u.getNextVersion("Testmodul", "1.0.1");
 			Assert.fail("RuntimeException erwartet");

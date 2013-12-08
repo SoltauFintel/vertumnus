@@ -16,43 +16,43 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 /**
- * XML Dokument
- * <br>XML Kapselung für vereinfachten DOM-basierten XML-Zugriff
+ * XML document
+ * <br>XML encapsulation for easy DOM-based XML access
  * 
  * @author  Marcus Warm
- * @version 1.8 20.12.2008
+ * @version 20.12.2008
  */
 public class XMLDocument implements Serializable {
 	private static final long serialVersionUID = 1L;
-	protected Document dok;
+	protected Document doc;
 	
 	/**
-	 * Standard-Konstruktor
-	 * <br>Dokument wird nicht initialisiert
+	 * Default constructor
+	 * <br>Document will not be initialized.
 	 */
 	public XMLDocument() {
 	}
 
 	/**
-	 * Konstruktor XML String
-	 * @param xml XML Dokument in String-Form
+	 * XML String constructor
+	 * @param xml XML document in String form
 	 */
 	public XMLDocument(String xml) {
 		if (xml == null) {
-			throw new IllegalArgumentException("XMLDocument-Argument xml darf nicht null sein!");
+			throw new IllegalArgumentException("XMLDocument argument xml must not be null!");
 		}
 		try {
-			dok = DocumentHelper.parseText(xml);
+			doc = DocumentHelper.parseText(xml);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
 	/**
-	 * Konstruktor XML Datei laden
-	 * @param pIsResource true wenn Ressourcendatei im Package, false wenn Datei im Dateisystem
-	 * @param pFilename   Dateiname inkl. Pfad.<br>
-	 *                    Dateiname kann auch mit file: oder http: beginnen. In diesem Fall wird pIsResource ignoriert.
+	 * Load XML file constructor
+	 * @param pIsResource true if resource file is in package, false if file is in file system
+	 * @param pFilename   file name incl. path.<br>
+	 *                    File name can start with file: or http:. In this case pIsResource will be ignored.
 	 */
 	public XMLDocument(boolean pIsResource, String pFilename) {
 		if (pFilename.startsWith("file:") || pFilename.startsWith("http:")) {
@@ -70,15 +70,15 @@ public class XMLDocument implements Serializable {
 	}
 
 	/**
-	 * Konstruktor XML Datei laden
-	 * @param file Datei aus Dateisystem
+	 * Load XML file constructor
+	 * @param file File from file system
 	 */
 	public XMLDocument(File file) {
 		this(false, file.getPath());
 	}
 	
 	/**
-	 * Konstruktor XML Datei laden
+	 * Load XML file constructor 
 	 * @param pStream InputStream
 	 */
 	public XMLDocument(InputStream pStream) {
@@ -86,99 +86,99 @@ public class XMLDocument implements Serializable {
 	}
 
 	/**
-	 * Konstruktor XML Datei laden
-	 * @param pClass        Class um Packagepfad zu ermitteln 
-	 * @param pResourcename Dateiname der Ressource ohne Pfad
+	 * Load XML file constructor
+	 * @param pClass        Class for package path detection 
+	 * @param pResourceName File name or resource without path
 	 */
-	public XMLDocument(Class<?> pClass, String pResourcename) {
+	public XMLDocument(Class<?> pClass, String pResourceName) {
 		final char slash = '/';
 		String pfad = pClass.getPackage().getName().replace('.', slash);
-		loadResource(slash + pfad + slash + pResourcename);
+		loadResource(slash + pfad + slash + pResourceName);
 	}
 
 	/**
-	 * load file
-	 * @param pDateiname
+	 * Load XML file
+	 * @param pFileName
 	 * @return XMLDocument
 	 */
-	public static XMLDocument load(String pDateiname) {
+	public static XMLDocument load(String pFileName) {
 		XMLDocument ret = new XMLDocument();
-		ret.loadFile(pDateiname);
+		ret.loadFile(pFileName);
 		return ret;
 	}
 
 	/**
-	 * load file
-	 * @param pDateiname
+	 * Load XML file
+	 * @param pFileName
 	 * @return XML String
 	 */
-	public static String loadXML(String pDateiname) {
+	public static String loadXML(String pFileName) {
 		XMLDocument ret = new XMLDocument();
-		ret.loadFile(pDateiname);
+		ret.loadFile(pFileName);
 		return ret.getXML();
 	}
 
 	/**
-	 * XML Datei laden
-	 * @param pDateiname
+	 * Load XML file
+	 * @param pFileName
 	 */
-	public void loadFile(String pDateiname) {
+	public void loadFile(String pFileName) {
 		SAXReader r = new SAXReader();
 		try {
-			dok = r.read(pDateiname);
+			doc = r.read(pFileName);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
 	/**
-	 * XML Datei laden
-	 * @param pRessourcenname
+	 * Load XML file
+	 * @param pResourceName
 	 */
-	public void loadResource(String pRessourcenname) {
-		InputStream stream = getClass().getResourceAsStream(pRessourcenname);
+	public void loadResource(String pResourceName) {
+		InputStream stream = getClass().getResourceAsStream(pResourceName);
 		if (stream == null) {
-			throw new RuntimeException("Ressourcendatei '" + pRessourcenname + "' kann nicht geladen werden!");
+			throw new RuntimeException("Resource file '" + pResourceName + "' cannot be loaded!");
 		}
 		loadStream(stream);
 	}
 	
 	/**
-	 * XML Datei laden
+	 * Load XML file
 	 * @param pStream InputStream
 	 */
 	public void loadStream(InputStream pStream) {
 		SAXReader r = new SAXReader();
 		try {
-			dok = r.read(pStream);
+			doc = r.read(pStream);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
 	/**
-	 * XML Dokument im PrettyPrint Format in Datei speichern
-	 * @param pDateiname
+	 * Save XML document in file with pretty print format
+	 * @param pFileName
 	 */
-	public void saveFile(String pDateiname) {
-		saveFile(pDateiname, OutputFormat.createPrettyPrint());
+	public void saveFile(String pFileName) {
+		saveFile(pFileName, OutputFormat.createPrettyPrint());
 	}
 
 	/**
-	 * XML Dokument im Compact Format in Datei speichern
-	 * @param pDateiname
+	 * Save XML document in file with compact format
+	 * @param pFileName
 	 */
-	public void saveFileCompact(String pDateiname) {
-		saveFile(pDateiname, OutputFormat.createCompactFormat());
+	public void saveFileCompact(String pFileName) {
+		saveFile(pFileName, OutputFormat.createCompactFormat());
 	}
 	
-	protected void saveFile(String pDateiname, OutputFormat pFormat) {
+	protected void saveFile(String pFileName, OutputFormat pFormat) {
 		pFormat.setEncoding("windows-1252");
         try {
 			XMLWriter writer = new XMLWriter(
-					new FileWriter(pDateiname), 
+					new FileWriter(pFileName), 
 					pFormat);
-			writer.write(dok);
+			writer.write(doc);
 			writer.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -186,72 +186,66 @@ public class XMLDocument implements Serializable {
 	}
 
 	/**
-	 * @return true wenn Dokument gültig und das root-Element Kind-Elemente besitzt
+	 * @return true if document is valid and the root element contains children
 	 */
 	public boolean isOkay() {
-		return dok!=null
-			&& dok.getRootElement()!=null
-			&& dok.getRootElement().elements()!=null
-			&& dok.getRootElement().elements().size() > 0;
+		return doc != null
+			&& doc.getRootElement() != null
+			&& doc.getRootElement().elements() != null
+			&& !doc.getRootElement().elements().isEmpty();
 	}
 	
 	/**
-	 * @return root Element
+	 * @return root element
 	 */
 	public XMLElement getElement() {
-		return dok==null ? null : XMLElementImpl.create(dok.getRootElement());
+		return doc == null ? null : XMLElementImpl.create(doc.getRootElement());
 	}
 	
 	/**
-	 * Schnellzugriff auf Kind-Elemente vom Dokument aus
-	 * @return Kind-Elemente vom root-Element
+	 * Quick access to children of root element
+	 * @return children of root element
 	 */
 	public List<XMLElement> getChildren() {
-		return XMLElementImpl.getChildElements(dok.getRootElement().elements());
+		return XMLElementImpl.getChildElements(doc.getRootElement().elements());
 	}
 	
 	/**
-	 * selectNodes Zugriff auf Dokumentebene <br>
-	 * Es wird eine Exception ausgelöst wenn die XPath-Anweisung fehlerhaft ist.
+	 * Document level selectNodes access<br>
+	 * An exception will be thrown if the XPath command is false.
 	 * @param pXPath XPath String
-	 * @return XMLElement Liste
+	 * @return XMLElement list
 	 */
 	public List<XMLElement> selectNodes(String pXPath) {
-		return XMLElementImpl.getChildElements(dok.selectNodes(pXPath));
+		return XMLElementImpl.getChildElements(doc.selectNodes(pXPath));
 	}
 	
 	/**
-	 * selectSingleNode Zugriff auf Dokumentebene <br>
-	 * Wenn die XPath-Anweisung fehlerhaft ist wird eine Exception ausgelöst.
-	 * @param pXPath XPath String. Der XPath String muß so aufgebaut sein,
-	 * 			                   daß nur ein Element zurückgegeben wird.
-	 * @return XMLElement oder null wenn Element nicht gefunden
+	 * Document level selectSingleNode access<br>
+	 * An exception will be thrown if the XPath command is false.
+	 * @param pXPath XPath String. The XPath string must be built that way that only one element is returned.
+	 * @return XMLElement or null if no element was found
 	 */
 	public XMLElement selectSingleNode(String pXPath) {
-		Node node = dok.selectSingleNode(pXPath);
-		if(node==null) {
-			return null;
-		} else {
-			return XMLElementImpl.create((Element) node);
-		}
+		Node node = doc.selectSingleNode(pXPath);
+		return node == null ? null : XMLElementImpl.create((Element) node);
 	}
 	
 	/**
-	 * Annahme ist, dass es im Dokument genau ein Element mit der id gibt.
+	 * Assumption is that there is exactly one element with the id attribute in the document.
 	 * @param id
-	 * @return XMLElement anhand Attribut id liefern
+	 * @return XMLElement with that id, or null if no element match that id
 	 */
 	public XMLElement byId(String id) {
 		return selectSingleNode("//*[@id='" + id + "']");
 	}
 	
 	/**
-	 * Element mit Attribut "id" = id löschen.
-	 * Element kann nicht das root Element sein. Es muss aber auch nicht
-	 * das direkte Kindelement des root Elements sein.
-	 * @param id Inhalt des Attributs "id"
-	 * @return true wenn child gelöscht worden ist,
-	 * false wenn child nicht gefunden worden ist
+	 * Delete element with attribute 'id' = id.
+	 * That element can't be the root element. It is not necessary that the element is the direct child of the root element.
+	 * @param id Content of attribute 'id'
+	 * @return true if child was deleted,
+	 * false if child wasn't found.
 	 */
 	public boolean removeChildById(final String id) {
 		final String x = "*[@id='" + id + "']";
@@ -266,6 +260,6 @@ public class XMLDocument implements Serializable {
 	 * @return XML String
 	 */
 	public String getXML() {
-		return dok.asXML();
+		return doc.asXML();
 	}
 }

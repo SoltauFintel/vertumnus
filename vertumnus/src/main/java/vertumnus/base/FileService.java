@@ -9,9 +9,9 @@ public class FileService {
 	}
 
 	/**
-	 * Datei from nach to kopieren
-	 * @param from Dateiname inkl. Pfad, Datei muss vorhanden und zugreifbar sein
-	 * @param to Dateiname inkl. Pfad
+	 * Copy file from 'from' to 'to'
+	 * @param from file name incl. path, file must exist und be accessable
+	 * @param to file name incl. path
 	 * @throws IOException
 	 */
 	public static void copyFile(String from, String to) throws IOException {
@@ -19,16 +19,17 @@ public class FileService {
 		FileOutputStream out = new FileOutputStream(to);
 		byte[] buffer = new byte[4096];
 		int bytes_read;
-		while ((bytes_read = in.read(buffer)) != -1)
+		while ((bytes_read = in.read(buffer)) != -1) {
 	        out.write(buffer, 0, bytes_read);
+		}
 		out.close();
 		in.close();
 	}
 
 	/**
-	 * Ordner löschen, der noch Dateien enthält
-	 * @param dn zu löschender Ordner
-	 * @return true wenn Ordner existierte und gelöscht werden konnte
+	 * Delete folder which contains files
+	 * @param dn to be deleted folder
+	 * @return true if the folder existed and could be deleted
 	 */
 	public static boolean deleteFolder(String dn) {
 		File dir = new File(dn);
@@ -54,18 +55,18 @@ public class FileService {
 	}
 	
 	/**
-	 * @param fromurl source
-	 * @param tofile target
+	 * @param fromURL source
+	 * @param toFile target
 	 * @param listener can be null
 	 * @return true if download was complete and successfully
 	 */
-	public static boolean download(String fromurl, File tofile, DownloadInfo listener) {
+	public static boolean download(String fromURL, File toFile, DownloadInfo listener) {
 		boolean delete = false;
 		try {
-			URL u = new URL(fromurl);
-			InputStream input = new DataInputStream(u.openStream());
+			URL url = new URL(fromURL);
+			InputStream input = new DataInputStream(url.openStream());
 			try {
-				OutputStream output = new FileOutputStream(tofile);
+				OutputStream output = new FileOutputStream(toFile);
 				try {
 					long downloaded = 0;
 					byte[] buffer = new byte[8192];
@@ -81,14 +82,14 @@ public class FileService {
 				} finally {
 					output.close();
 					if (delete) {
-						tofile.delete();
+						toFile.delete();
 					}
 				}
 			} finally {
 				input.close();
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("Fehler beim Download von " + fromurl, e);
+			throw new RuntimeException("Error downloading " + fromURL, e);
 		}
 		return true;
 	}

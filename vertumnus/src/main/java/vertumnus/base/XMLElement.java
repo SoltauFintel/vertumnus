@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * XML Element Interface
+ * XML Element interface
  *  
  * @author  Marcus Warm
- * @version 1.70.0 02.05.2008
+ * @version 02.05.2008
  */
 public interface XMLElement {
 

@@ -7,23 +7,23 @@ import uk.co.flamingpenguin.jewel.cli.Option;
  */
 public interface VertumnusCLI {
 
-	/** Ist-Version */
+	/** Current version */
 	@Option(shortName="v")
 	String getVersion();
 
-	/** Modulname */
+	/** Module name */
 	@Option(shortName="m")
 	String getModule();
 
-	/** Verzeichnis */
+	/** Directory */
 	@Option(shortName="d")
 	String getDirectory();
 
-	/** Linie (Major, Minor, ...) */
+	/** Line (major, minor, ...) */
 	@Option(shortName="l")
 	String getLine();
 
-	/** enthält "1", "2", "3" oder Kombination (z.B. "132") */
+	/** contains "1", "2", "3" or a combination (e.g. "132") */
 	@Option(shortName="s", defaultValue="123")
 	String getStage();
 	

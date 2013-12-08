@@ -14,7 +14,7 @@ public class FTPUpload {
 	private boolean conntected = false;
 	
 	/**
-	 * Mit FTP Server verbinden
+	 * Connect to FTP server
 	 * @param server
 	 * @param login
 	 * @param password
@@ -24,7 +24,7 @@ public class FTPUpload {
 			ftp = new FTPClient();
 			ftp.connect(server);
 			if (!ftp.login(login, password)) {
-				throw new RuntimeException("Passwort falsch");
+				throw new RuntimeException("Wrong password");
 			}
 			conntected = true;
 			ftp.setFileType(FTP.BINARY_FILE_TYPE);
@@ -39,7 +39,7 @@ public class FTPUpload {
 	}
 	
 	/**
-	 * FTP Verbindung schließen
+	 * Close FTP connection
 	 */
 	public void disconnect() {
 		try {
@@ -53,7 +53,7 @@ public class FTPUpload {
 	}
 	
 	/**
-	 * Verzeichnis auf FTP Server wechseln
+	 * Change directory on FTP server
 	 * @param dir
 	 */
 	public void cd(String dir) {
@@ -64,9 +64,9 @@ public class FTPUpload {
 	}
 
 	/**
-	 * Datei per FTP hochladen
-	 * <p>Dateiname wird beibehalten. Datei wird ggf. überschrieben.
-	 * @param source hochzuladende Datei, inkl. Pfad
+	 * Upload file using FTP
+	 * <p>File name is maintained. File will be overwritten if the file existed.
+	 * @param source to be uploaded file, incl. path
 	 */
 	public void upload(final String pSource) {
 		String source = pSource.replace("\\", "/");
@@ -79,23 +79,23 @@ public class FTPUpload {
 	}
 
 	/**
-	 * Datei per FTP hochladen
-	 * @param source hochzuladende Datei, inkl. Pfad
-	 * @param target Dateiname der abzulegenden Datei, null wenn source Dateiname beibehalten werden soll
-	 * @param overwrite true überschreiben, false Exception werfen falls Datei vorhanden 
+	 * Upload file using FTP
+	 * @param source to be uploaded file, incl. path
+	 * @param target file name of the to be saved file, null if source file name shall be maintained
+	 * @param overwrite true overwrite, false throw exception if file exist 
 	 */
 	public void upload(String source, String target, boolean overwrite) {
 		if (!overwrite) {
-			throw new UnsupportedOperationException("overwrite Option false wird noch nicht unterstützt");
+			throw new UnsupportedOperationException("overwrite option false is not supported");
 		}
 		if (target == null) {
-			throw new UnsupportedOperationException("target == null wird noch nicht unterstützt");
+			throw new UnsupportedOperationException("target == null is not supported");
 		}
 		try {
 			InputStream stream = new FileInputStream(source);
 			try {
 				if (!ftp.storeFile(path + target, stream)) {
-					throw new RuntimeException("Upload Fehler: " + source + " => " + path + target);
+					throw new RuntimeException("Upload error: " + source + " => " + path + target);
 				}
 			} finally {
 				stream.close();

@@ -15,16 +15,16 @@ import org.dom4j.Node;
 
 /**
  * XML Element
- * <br>XML Kapselung für vereinfachten DOM-basierten XML-Zugriff
+ * <br>XML encapsulation for easy DOM-based XML access
  * 
- * @author  Marcus Warm
- * @since   1.1 17.12.2008
+ * @author Marcus Warm
+ * @since  17.12.2008
  */
 public class XMLElementImpl implements XMLElement {
 	protected Element element;
 
 	/**
-	 * Konstruktor
+	 * Constructor
 	 * @param pElement
 	 */
 	XMLElementImpl(Element pElement) { 
@@ -40,35 +40,35 @@ public class XMLElementImpl implements XMLElement {
 		element.setName(name);
 	}
 	
-	public String getValue(String pAttributname) {
-		String ret = element.attributeValue(pAttributname);
+	public String getValue(String pAttributeName) {
+		String ret = element.attributeValue(pAttributeName);
 		if (ret == null) {
 			ret = "";
 		}
 		return ret;
 	}
 	
-	public String getMultiLineValue(String pAttributname) {
-		String ret = getValue(pAttributname);
+	public String getMultiLineValue(String pAttributeName) {
+		String ret = getValue(pAttributeName);
 		return ret.replace(NEWLINE, "\n");
 	}
 	
-	public void setValue(String pAttributname, String pValue) {
-		element.addAttribute(pAttributname, pValue);
+	public void setValue(String pAttributeName, String pValue) {
+		element.addAttribute(pAttributeName, pValue);
 	}
 	
-	public void setMultiLineValue(String pAttributname, String pValue) {
+	public void setMultiLineValue(String pAttributeName, String pValue) {
 		if (pValue == null) {
-			setValue(pAttributname, pValue);
+			setValue(pAttributeName, pValue);
 		} else {
-			setValue(pAttributname, 
+			setValue(pAttributeName, 
 					pValue.replace("\r", "").replace("\n", NEWLINE));
 		}
 	}
 	
-	public void setValueIfNotNull(String pAttributname, String pValue) {
+	public void setValueIfNotNull(String pAttributeName, String pValue) {
 		if (pValue != null) {
-			element.addAttribute(pAttributname, pValue);
+			element.addAttribute(pAttributeName, pValue);
 		}
 	}
 	
@@ -81,12 +81,12 @@ public class XMLElementImpl implements XMLElement {
 	}
 	
 	public boolean hasChildren() {
-		return element.elements().size() > 0;
+		return !element.elements().isEmpty();
 	}
 	
 	protected static List<XMLElement> getChildElements(List<?> list) {
 		List<XMLElement> ret = new ArrayList<XMLElement>();
-		for(Object e : list) {
+		for (Object e : list) {
 			ret.add(create((Element) e));
 		}
 		return ret;
@@ -129,11 +129,11 @@ public class XMLElementImpl implements XMLElement {
 		return create(element.addElement(pElementName));
 	}
 	
-	public List<String> getArray(String pAttributName) {
+	public List<String> getArray(String pAttributeName) {
 		List<String> array = new ArrayList<String>();
 		for(Iterator<?> iter=getChildren().iterator(); iter.hasNext(); ) {
 			XMLElement e = (XMLElement) iter.next();
-			array.add(e.getValue(pAttributName));
+			array.add(e.getValue(pAttributeName));
 		}
 		return array;
 	}
@@ -141,7 +141,7 @@ public class XMLElementImpl implements XMLElement {
 	@Override
 	public Map<String, String> getMap() {
 		Map<String, String> map = new HashMap<String, String>();
-		for (int i=0; i<element.attributeCount(); i++) {
+		for (int i = 0; i < element.attributeCount(); i++) {
 			Attribute attr = element.attribute(i);
 			map.put(attr.getName(), attr.getValue());
 		}
@@ -166,8 +166,7 @@ public class XMLElementImpl implements XMLElement {
 	
 	@SuppressWarnings("unchecked")
 	public XMLElement insertBefore(int pBeforeIndex, String pNewElementName) {
-		Element neu = new DocumentFactory().createElement(pNewElementName);
-
+		Element aNew = new DocumentFactory().createElement(pNewElementName);
 		int newIndex = -1;
 		List<?> c = element.content();
 		for(int i=0; i<c.size(); i++) {
@@ -180,9 +179,8 @@ public class XMLElementImpl implements XMLElement {
 				}
 			}
 		}
-
-		element.content().add(pBeforeIndex, neu);
-		return create(neu);
+		element.content().add(pBeforeIndex, aNew);
+		return create(aNew);
 	}
 
 	public int indexByName(String pElementName, int pStart) {
@@ -198,8 +196,7 @@ public class XMLElementImpl implements XMLElement {
 	public void removeAttribute(String pElementName) {
 		try {
 			element.remove(element.attribute(pElementName));
-		} catch (Exception e) { 
-			// Fehler ignorieren
+		} catch (Exception e) { // 
 		}
 	}
 	
@@ -207,8 +204,8 @@ public class XMLElementImpl implements XMLElement {
 		return new XMLElementImpl(pElement);
 	}
 	
-	public boolean hasAttribute(String pAttributname) {
-		return element.attributeValue(pAttributname) != null;
+	public boolean hasAttribute(String pAttributeName) {
+		return element.attributeValue(pAttributeName) != null;
 	}
 
 	@Override

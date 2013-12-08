@@ -11,7 +11,8 @@ import vertumnus.base.FileService.DownloadInfo;
  * The most important Vertumnus class.
  */
 public class Updater implements DownloadInfo {
-	private boolean minorLinie = false;
+	private boolean minorLine = false;
+	private boolean bugfixLine = false;
 	private String urlDirectory;
 	private File directory;
 	private WhatVersion wv;
@@ -31,7 +32,17 @@ public class Updater implements DownloadInfo {
 	 * false (default) if the newest version should be loaded
 	 */
 	public void setKeepMajorVersion(boolean e) {
-		minorLinie = e;
+		minorLine = e;
+		bugfixLine = false;
+	}
+	
+	/**
+	 * @param true if updates are only permitted in the bugfix line,
+	 * false (default) if the newest version should be loaded
+	 */
+	public void setKeepMinorVersion(boolean e) {
+		bugfixLine = e;
+		minorLine = false;
 	}
 
 	/**
@@ -62,7 +73,9 @@ public class Updater implements DownloadInfo {
 		}
 		wv.setModule(modul);
 		String version;
-		if (minorLinie) {
+		if (bugfixLine) {
+			version = wv.getNextBugfixVersion(currentVersion);
+		} else if (minorLine) {
 			version = wv.getNextMinorVersion(currentVersion);
 		} else {
 			version = wv.getNextMajorVersion(currentVersion);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="windows-1252"?>
 
 <directory> 
-  <e module="testmodule" version="1.1.0" url="testmodule-1.1.0.zip" size="6784"/>  
-  <e module="testmodule" version="2.0.1" url="testmodule-2.0.1.zip" size="6977"/>
+  <e module="testmodule" version="1.0.4" url="testmodule-1.0.4.zip" size="6818"/>  
+  <e module="testmodule" version="1.1.0" url="testmodule-1.1.0.zip" size="6782"/>  
+  <e module="testmodule" version="2.0.1" url="testmodule-2.0.1.zip" size="6975"/>
 </directory>

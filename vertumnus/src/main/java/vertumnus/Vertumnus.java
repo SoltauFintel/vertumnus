@@ -19,7 +19,11 @@ public class Vertumnus {
 			VertumnusCLI cli = CliFactory.parseArguments(VertumnusCLI.class, args);
 			Updater u = new Updater();
 			u.setDirectory(cli.getDirectory());
-			u.setKeepMajorVersion("minor".equalsIgnoreCase(cli.getLine()));
+			if ("bugfix".equalsIgnoreCase(cli.getLine())) {
+				u.setKeepMinorVersion(true);
+			} else if ("minor".equalsIgnoreCase(cli.getLine())) {
+				u.setKeepMajorVersion(true);
+			}
 			String filename = null, nv = null;
 			if (cli.getStage().contains("1")) {
 				nv = u.getNextVersion(cli.getModule(), cli.getVersion());

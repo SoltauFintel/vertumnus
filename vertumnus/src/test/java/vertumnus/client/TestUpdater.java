@@ -12,7 +12,7 @@ public class TestUpdater {
 	public static final String MODULENAME = "testmodule";
 	public static final String CURRENT_VERSION = "1.0.1";
 	public static final String CURRENT_VERSION_NEW = "2.0.1";
-	public static final String DIRECTORY = "http://mwvb.de/vertumnus/directory.xml";
+	public static final String DIRECTORY = "http://mwvb.de/vertumnus/directory.xml"; // You must change this URL.
 
 	// call vertumnus.maker.TestPrepare.prepare() for first installation 
 
@@ -24,16 +24,24 @@ public class TestUpdater {
 	}
 
 	private void stage1portion(Updater u) {
-		String nextVersion = u.getNextVersion(MODULENAME, CURRENT_VERSION);
+		String nextVersion = u.getNextVersion(MODULENAME, getCurrentVersion());
 		Assert.assertEquals(getExpectedVersion(), nextVersion);
 		System.out.println("Update to version " + nextVersion);
+	}
+	
+	protected String getCurrentVersion() {
+		return CURRENT_VERSION;
+	}
+	
+	protected String getCurrentVersionNew() {
+		return CURRENT_VERSION_NEW;
 	}
 
 	// Detects whether an update is available: no
 	@Test
 	public void stage1_noUpdate() {
 		Updater u = getUpdater();
-		String nextVersion = u.getNextVersion("Testmodul", CURRENT_VERSION_NEW);
+		String nextVersion = u.getNextVersion("Testmodul", getCurrentVersionNew());
 		Assert.assertNull("Version must be null, but is: " + nextVersion, nextVersion);
 	}
 	
@@ -51,17 +59,17 @@ public class TestUpdater {
 	
 	// Unzip packet (This is the complete procedure incl. installation.)
 	// <br>Required parameters:
-	// directory URL, module name, current version, target folder, line (major or minor?)
+	// directory URL, module name, current version, target folder, line (major, minor or bugfix?)
 	@Test
 	public void stage3() {
-		final String dn = "temp/datei-" + getExpectedVersion() + ".odt";
-		new File(dn).delete();
+		final String filename = "temp/file-" + getExpectedVersion() + ".odt";
+		new File(filename).delete();
 		Updater u = getUpdater();
 		stage1portion(u);
 		File p = new File(u.load());
 		u.install("temp");
 		p.deleteOnExit();
-		Assert.assertEquals("File size of " + dn + " is wrong.\n", getStage3Size(), new File(dn).length());
+		Assert.assertEquals("File size of " + filename + " is wrong.\n", getStage3Size(), new File(filename).length());
 	}
 	
 	protected long getStage3Size() {

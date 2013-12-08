@@ -18,5 +18,4 @@ After clone this repository into Eclipse you must execute the target "eclipse" o
 
 ## Roadmap
 
-* new feature: Bugfix line
 * Documentation
